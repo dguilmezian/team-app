@@ -15,7 +15,7 @@
               >
             </div>
             <router-link :to="`/`">
-              <button type="button" class="btn btn-primary">Back</button>
+              <button type="button" class="btn btn-primary">Volver</button>
             </router-link>
           </div>
 
@@ -24,13 +24,13 @@
           <div class="card-body">
             <div class="row">
               <div class="col-sm-6 col-md-12">
-                <p style="text-transform: capitalize"><b>Gender</b>: {{ user.gender }}</p>
+                <p style="text-transform: capitalize"><b>Género (en ingles)</b>: {{ user.gender }}</p>
                 <p><b>E-Mail:</b> {{ user.email }}</p>
-                <p><b>Birthdate:</b> {{ dateFormat(user.dateOfBirth) }}</p>
-                <p><b>Phone Number:</b> {{ user.phone }}</p>
-                <p><b>Address:</b> {{ user.location.street }}, {{ user.location.city }}, {{ user.location.state }}.
+                <p><b>Fecha de Nacimiento:</b> {{ dateFormat(user.dateOfBirth) }}</p>
+                <p><b>Número Telefónico:</b> {{ user.phone }}</p>
+                <p><b>Dirección:</b> {{ user.location.street }}, {{ user.location.city }}, {{ user.location.state }}.
                   {{ user.location.country }}</p>
-                <p><b>Register Date:</b> {{ dateFormat(user.registerDate) }}</p>
+                <p><b>Fecha de registro:</b> {{ dateFormat(user.registerDate) }}</p>
 
               </div>
             </div>
