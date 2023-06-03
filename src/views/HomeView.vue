@@ -5,18 +5,19 @@
         <div class="col-sm-6 col-md-12">
           <div class="input-group col-sm-5">
             <input
-                    type="text"
-                    class="form-control rounded-pill"
-                    placeholder="Buscar"
-                    aria-label="Buscar"
-                    aria-describedby="button-addon"
-                    v-model="filter"
+                type="text"
+                class="form-control rounded-pill"
+                placeholder="Buscar"
+                aria-label="Buscar"
+                aria-describedby="button-addon"
+                v-model="filter"
+                @keyup.enter="getUsers"
             />
             <button
-                    class="btn btn-outline-secondary rounded-pill"
-                    type="button"
-                    id="button-addon"
-                    @click="getUsers"
+                class="btn btn-outline-secondary rounded-pill"
+                type="button"
+                id="button-addon"
+                @click="getUsers"
             >
               Buscar
             </button>
@@ -25,15 +26,15 @@
             <div class="row">
               <template v-for="(user, index) in users">
                 <div class="col-lg-4 col-md-6 col-12" style="margin-bottom: 10px">
-                  <router-link :to="`/user/${user.id}`" query:{user}
-                          class="btn btn-primary custom-button"
-                          style="width: 100%"
+                  <router-link :to="`/user/${user.id}`"
+                               class="btn btn-primary custom-button"
+                               style="width: 100%"
                   >
                     <div class="d-flex align-items-center">
                       <img
-                              :src="user.picture"
-                              class="rounded-circle button-image"
-                              style="width: 50px; height: 50px"
+                          :src="user.picture"
+                          class="rounded-circle button-image"
+                          style="width: 50px; height: 50px"
                       />
                       <div class="flex-grow-1">
                         <span class="d-inline-block text-truncate" style="max-width: 150px"
@@ -56,45 +57,53 @@
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from 'axios'
+import { mapState, mapMutations } from 'vuex'
 
-  export default {
-    props: {},
-    data: function() {
-      return {
-        users: [],
-        filter: '',
-        user:{}
-      }
-    },
-    methods: {
-      handleClick() {
-      },
-      getUsers() {
-        axios
-                .get('https://dummyapi.io/data/v1/user', {
-                  headers: {
-                    'app-id': '64794a81ecf7af8e5e0bd8c9'
-                  }
-                })
-                .then((response) => {
-                  this.users = response.data.data
-                  if (this.filter) {
-                    const filterLower = this.filter.toLowerCase()
-                    console.log(filterLower)
-                    this.users = this.users.filter((user) => {
-                      const fullName = `${user.firstName} ${user.lastName}`.toLowerCase()
-                      console.log(fullName.includes(filterLower))
-                      return fullName.includes(filterLower)
-                    })
-                  }
-                })
-
-      },
-    },
-    mounted() {
-      this.getUsers()
+export default {
+  props: {},
+  data: function() {
+    return {
+      users: [],
+      filter: '',
+      user: {}
+    }
+  },
+  methods: {
+    ...mapMutations(['setFilter']),
+    getUsers() {
+      axios
+          .get('https://dummyapi.io/data/v1/user', {
+            headers: {
+              'app-id': '64794a81ecf7af8e5e0bd8c9'
+            }
+          })
+          .then((response) => {
+            this.users = response.data.data
+            if (this.filter) {
+              const filterLower = this.filter.toLowerCase()
+              console.log(filterLower)
+              this.users = this.users.filter((user) => {
+                const fullName = `${user.firstName} ${user.lastName}`.toLowerCase()
+                console.log(fullName.includes(filterLower))
+                return fullName.includes(filterLower)
+              })
+            }
+          })
+    }
+  },
+  computed: {
+    ...mapState(['filter'])
+  },
+  mounted() {
+    this.filter = this.$store.state.filter
+    this.getUsers()
+  },
+  watch: {
+    filter(newFilter) {
+      this.$store.commit('setFilter', newFilter)
     }
   }
+}
 </script>
 <style lang="scss"></style>

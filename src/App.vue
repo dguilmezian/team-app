@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-sm-6 col-md-12">
-          <h1>LOGO</h1>
+          <img src="https://cdn.logo.com/hotlink-ok/logo-social.png" style="width: 185px; height: 90px">
           <router-view/>
         </div>
       </div>
